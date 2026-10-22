@@ -1,0 +1,11 @@
+
+services:
+  app:
+    build: .
+    image: ecommerce-app:v1
+    container_name: ecommerce-compose-app
+    ports:
+      - "5001:5001"
+    restart: unless-stopped
+
+
