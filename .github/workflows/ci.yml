@@ -10,7 +10,6 @@ on:
 jobs:
   test-build-push:
     runs-on: ubuntu-latest
-    # Docker Hub-ku push only when code is pushed to main
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
 
     steps:
@@ -31,6 +30,9 @@ jobs:
       - name: Run tests
         run: python -m pytest -v
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
@@ -44,6 +46,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           context: .
+          platforms: linux/amd64,linux/arm64
           push: true
           tags: vairavank87/ecommerce-devops-platform:latest
 
